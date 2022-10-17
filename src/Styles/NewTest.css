@@ -1,0 +1,113 @@
+
+span.outline{
+	color:transparent;
+	-webkit-text-stroke: 1px white;
+}
+
+h2{
+	font-size: 3rem;
+	color: var(--color-em);
+	letter-spacing: 1px;
+	font-family: sans-serif;
+	text-align: center;
+	
+}
+
+form{
+	padding-inline: 15em;
+	margin-block: 3em;
+	position: relative;
+}
+
+input{
+	width: 100%;
+	font-size: 1.4rem;
+	padding: 10px 2em;
+	margin: 1em 0;
+	background-color: transparent;
+	border: 1px solid var(--color-em);
+	border-radius: 5px;
+
+	accent-color: var(--color-em);
+}
+
+input:focus{
+	outline: none;
+}
+input::placeholder{
+	opacity: 0.5;
+}
+
+input[type='checkbox']{
+	transform: scale(1.6);
+	width: fit-content;
+	/* margin-inline: 3em; */
+}
+
+input[type='submit']{
+	border: none;
+	background-color: rgb(0, 194, 145);
+}
+input[type='submit']:hover{
+	cursor: pointer;
+
+}
+
+.topic-heading{
+	opacity: 0.5;
+}
+
+h3{
+	font-size: 2rem;
+	margin-block: 0.5em;
+	margin-bottom: 1.5em;
+	text-align: center;
+	opacity: 0.8;
+	font-weight: 200;
+	letter-spacing: 3px;
+}
+h4{
+	font-size: 1.5rem;
+	margin-block: 0;
+	font-weight: 100;
+}
+
+div.subtopics{
+	margin-left: 8em;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.subtopic-item + .subtopic-item{
+	margin-left: 3em;
+}
+
+label.checkbox{
+	margin-left: 1em;
+	text-transform: capitalize;
+	font-size: 1.2rem;
+	margin-block: 1em;
+}
+
+label.checkbox:hover{
+	color: var(--color-em)
+}
+
+.checkbox-group{
+	display: flex;
+	align-items: center;
+}
+
+#questionNoInput{
+	margin-top: 5px;
+}
+
+label[for='questionNoInput']{
+	opacity: 0.6;
+}
+
+input[type='submit']:hover{
+	background-color: rgb(0, 177, 133);
+}

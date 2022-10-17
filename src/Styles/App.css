@@ -1,0 +1,94 @@
+:root{
+	--color-em: rgb(0, 255, 191);
+}
+*{
+	box-sizing: border-box;
+}
+
+
+
+.App{
+	max-width: 1400px;
+	margin-inline: auto;
+	font-family: 'Segoe UI';
+}
+
+header{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-inline: 2em;
+}
+header h1{
+	font-size: 2rem;
+	margin-block: 10px;
+}
+
+.logo{
+	color: var(--color-em);
+}
+
+nav{
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+nav>*{
+	margin-inline: 2em;
+	font-size: 1.1rem;
+	text-decoration: none;
+	color: rgba(255, 255, 255, 0.747);
+
+}
+nav>*:hover{
+	color: var(--color-em);
+}
+
+hr{
+	border:none;
+	border-bottom: 0.5px solid rgba(128, 128, 128, 0.651);
+	margin-bottom: 2em;
+}
+
+
+@media screen and (max-width: 1000px) {
+	:root{
+		font-size: 12px;
+	}
+	
+}
+
+@media screen and (max-width: 800px){
+	form{
+		padding: 1em;
+	}
+}
+
+@media screen and (max-width: 500px){
+	:root{
+		font-size: 8px;
+	}
+	form{
+		padding: 0.5em;
+	}
+	input[type='checkbox']{
+		transform:scale(1)
+	}
+	.subtopic-item{
+		display: flex;
+		align-items: center;
+	}
+	a{
+		margin-inline: 5px;
+	}
+	.checkbox-group{
+		flex-direction: column;
+		align-items: center;
+	}
+	div.subtopics{
+		margin-left: 0;
+		width: 98%;
+		margin-inline: auto;
+	}
+	
+}
