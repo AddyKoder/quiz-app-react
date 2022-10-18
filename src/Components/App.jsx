@@ -82,6 +82,25 @@ function fetchQuizData() {
 	];
 }
 
+// helper function to shuffle an array
+function shuffle(array) {
+  let currentIndex = array.length,  randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
+}
+
 
 
 const quizData = fetchQuizData();
@@ -118,6 +137,8 @@ export default function App() {
 	// creating a variable to keep track of the last timeout used to increment the time variable
 	// used to clear timeout when timer has to stop or reseted
 	const lastTimeout = useRef(undefined)
+	const questions = useRef({})
+	const currentTestTopics = useRef(0)
 
 	// used for overwriting new topics selected by user to the topics state
 	function setTopics(arg) {
@@ -137,6 +158,43 @@ export default function App() {
 		}, 1000);
 	}
 
+	//filtering questions and shuffling options
+	function createTestQuestions(selectedTopics, number) {
+		
+		const topics = Object.keys(selectedTopics).filter((topic) => {
+			return selectedTopics[topic]
+		})
+
+		currentTestTopics.current = topics.length
+
+		let n = 0
+		const questions =
+			
+			// Shuffling the order or questions
+			shuffle(
+			// Filtering tor topics selected by the user
+			quizData.filter((question) => {
+			if (topics.includes(question.type[1])) {
+				return true
+			}
+			return false
+
+			}))
+			// Mapping questions to shuffle the options coz options 1 is always correct
+			// Also to add question no.
+			.map((question) => {
+			let tempQuestion = { ...question, n:++n }
+			tempQuestion.options = shuffle(tempQuestion.options)
+			return tempQuestion
+		})
+
+		if (questions.length < number) {
+			// window.alert(`The Number of questions are limited to ${questions.length} due to unavailability in database. You can Contribute by adding questions. \nContinue with limited questions?`)
+			return questions
+		}
+		return questions.slice(0,number)
+	}
+
 	// starting new test
 	function startTest() {
 		if (questionNo < 5 || questionNo > 40) { window.alert('No. of questions my lie between 5 and 40');  return false}
@@ -145,7 +203,12 @@ export default function App() {
 		}).length < 1) { window.alert('Atleast one of the topics should be selected for the test'); return false}
 		
 		// Now starting the test
+		if (isTestActive) {
+			if (!window.confirm('Do you want to Abort Test in progress to start a new Test?')) return
+		}
+
 		abortTest()
+		questions.current = createTestQuestions(topics, questionNo)
 		setIsTestActive(true)
 		incrementTime(setTime)
 		return true
@@ -164,10 +227,15 @@ export default function App() {
 					<BrowserRouter>
 						<Routes>
 							<Route path='/' element={<Navbar />}>
+
 								<Route index element={<NewTestForm topics={questionTopics} onStart={startTest} />} />
+
 								<Route path='/configure-Test' element={<NewTestForm topics={questionTopics} onStart={startTest} />} />
-								<Route path='/test' element={<CurrentTest time={time} onAbort={abortTest} isPlaying={isTestActive} />} />
+
+								<Route path='/test' element={<CurrentTest time={time} onAbort={abortTest} isPlaying={isTestActive} questions={questions.current} topicsCount={currentTestTopics.current} />} />
+
 								<Route path='/add-question' element={<AddQuestion />} />
+
 							</Route>
 						</Routes>
 					</BrowserRouter>

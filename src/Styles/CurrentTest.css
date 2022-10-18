@@ -1,0 +1,74 @@
+
+input[type='radio']{
+	width: fit-content;
+	transform: scale(1.5);
+}
+
+.test header{
+	display: flex;
+	justify-content: space-between;
+
+	position: sticky;
+	top: 0;
+	/* background-color: rgb(4, 13, 31); */
+	background-color: var(--color-bg);
+	border-bottom: .5px solid rgba(255, 255, 255, 0.199);
+	z-index: 5;
+
+	padding: 1em 5em;
+
+	/* width: 100vw;
+	transform: translate(-14%); */
+}
+
+.timer{
+	font-size: 1.8rem;
+	opacity: 0.5;
+
+}
+.super-header{
+	display:flex;
+	justify-content: center;
+	gap: 4em;
+	align-items: center;
+}
+
+
+#test-abort-button{
+	font-size: 1.2rem;
+	padding: 0.25em 1em;
+	border:none;
+	border-radius: 2px;
+	background-color: rgb(175, 0, 0);
+	opacity: 0.95;
+}
+#test-abort-button:hover{
+	background-color: red;
+	opacity: 1;
+	cursor: pointer;
+}
+
+.header-info{
+	margin-inline: 1em;
+	font-weight: 100;
+	color: grey;
+	font-size: 1.8rem;;
+}
+.header-info .bright{
+	color:white;
+	opacity:1;
+}
+@media screen and (max-width: 500px) {
+
+	.test header{
+		border-radius: 0;
+		padding: 1.5em 3em;
+		transform: translate(0);
+	}
+
+	#test-abort-button{
+		font-size: 1.5em;
+		padding: 0.5em 1em;
+	}
+
+}

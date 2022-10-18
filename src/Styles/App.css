@@ -1,10 +1,14 @@
 :root{
 	--color-em: rgb(0, 255, 191);
+	--color-bg: rgb(3, 3, 20);
 }
 *{
 	box-sizing: border-box;
 }
-
+body{
+	background-color: var(--color-bg);
+	margin: 0;
+}
 
 
 .App{
@@ -68,11 +72,9 @@ hr{
 	:root{
 		font-size: 8px;
 	}
-	form{
-		padding: 0.5em;
-	}
-	input[type='checkbox']{
-		transform:scale(1)
+
+	input[type='checkbox'],input[type='radio']{
+		transform:scale(1);
 	}
 	.subtopic-item{
 		display: flex;
