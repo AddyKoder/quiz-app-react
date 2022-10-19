@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/CurrentTest.css'
 
@@ -9,7 +9,7 @@ function OptionItem({ question, option }) {
 	return <div className="option">
 		<input type="radio" name={`${statement}`} id={`${statement}__${option}`} />
 
-		<label htmlFor={`${statement}__${option}`}>{option}</label>
+		<label className='option-label' htmlFor={`${statement}__${option}`}>{option}</label>
 	</div>
 }
 
@@ -17,15 +17,30 @@ function QuestionDisplay({ question }) {
 	
 
 	return <div className="questionItem">
-		<span>{question.n}</span><p className='question-statement'>{question.statement}</p>
+
+
+		<div className="question-main-group">
+		<span>{question.n}.</span><p className='question-statement'>{question.statement}</p>
+		</div>
+
+		
+		<div className="options-group">
 		{question.options.map((option) => {
 			return <OptionItem key={option} question={question} option={option} />
 		})}
+		</div>
 
 	</div>
 }
 
-export default function CurrentTest({ time, onAbort, isPlaying, questions, topicsCount}) {
+export default function CurrentTest({ time, onAbort, isPlaying, questions, topicsCount, }) {
+
+
+
+	function submitTest(e) {
+		e.preventDefault();
+	}
+	
 	if (isPlaying) {
 		return (
 			<div className='test'>
@@ -42,11 +57,16 @@ export default function CurrentTest({ time, onAbort, isPlaying, questions, topic
 					<button id="test-abort-button" onClick={() => {
 						if(window.confirm('Are you Sure, You want to Abort the current Test? All the data will be lost.')) onAbort()
 				}}>Abort Test</button>
-				<div className='timer' >{ time/60 < 10? `0${Math.floor(time / 60)}`:Math.floor(time / 60)}:{time%60 < 10 ? `0${time%60}` : time%60}</div>
+					<div className='timer' >
+
+						{time / 60 < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60)}
+						:{time % 60 < 10 ? `0${time % 60}` : time % 60}</div>
 				</header>
 
 				<form>
 					{questions.map((question) => <QuestionDisplay key={question.id} question={question} />)}
+
+					<button className='test-submit-button' type="submit" onClick={submitTest}>Finish Test</button>
 				</form>
 			</div>
 		);

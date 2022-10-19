@@ -130,15 +130,24 @@ export default function App() {
 	// tracking the configuration of test edited by the user
 	const [questionNo, setQuestionNo] = useLocalstorage('setQuestionNo', 5);
 	const [topics, updateTopics] = useLocalstorage('topics', {});
+
 	// tracking the timer of current test
 	const [time, setTime] = useState(0)
+
 	// used to infer whether a test is going on or not
 	const [isTestActive, setIsTestActive] = useState(false)
+
 	// creating a variable to keep track of the last timeout used to increment the time variable
 	// used to clear timeout when timer has to stop or reseted
 	const lastTimeout = useRef(undefined)
+
+	// containst questions for current test
 	const questions = useRef({})
+	
+	//contains the number of topics included in current test
 	const currentTestTopics = useRef(0)
+
+
 
 	// used for overwriting new topics selected by user to the topics state
 	function setTopics(arg) {
@@ -166,7 +175,8 @@ export default function App() {
 		})
 
 		currentTestTopics.current = topics.length
-
+		
+		//counter variable for mapping question numbers
 		let n = 0
 		const questions =
 			
@@ -182,8 +192,9 @@ export default function App() {
 			}))
 			// Mapping questions to shuffle the options coz options 1 is always correct
 			// Also to add question no.
+			// Also to add correct answer.
 			.map((question) => {
-			let tempQuestion = { ...question, n:++n }
+			let tempQuestion = { ...question, n:++n , correct:question.options[0]}
 			tempQuestion.options = shuffle(tempQuestion.options)
 			return tempQuestion
 		})
@@ -211,6 +222,7 @@ export default function App() {
 		questions.current = createTestQuestions(topics, questionNo)
 		setIsTestActive(true)
 		incrementTime(setTime)
+
 		return true
 	}
 
@@ -219,6 +231,7 @@ export default function App() {
 		clearTimeout(lastTimeout.current)
 		setTime(0)
 	}
+
 
 	return (
 		<topicsContext.Provider value={[topics, setTopics]}>
