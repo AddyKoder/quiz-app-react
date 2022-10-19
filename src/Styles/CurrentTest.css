@@ -156,7 +156,15 @@ input[type='radio']{
 }
 
 @media screen and (max-width: 500px){
+	.option-label{
+	padding-top: 0.95em
 
+	}
+	.test-submit-button{
+		width: 90%;
+		margin-left: 1.2em;
+		padding: 0.5em;
+	}
 	.question-statement{
 		font-size: 2.2rem;
 		line-height: 1.5em;
