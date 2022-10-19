@@ -221,7 +221,7 @@ export default function App() {
 		}
 
 		// Now starting the test
-		if (isTestActive) {
+		if (isTestActive && !submitted) {
 			if (!window.confirm('Do you want to Abort Test in progress to start a new Test?')) return;
 		}
 
