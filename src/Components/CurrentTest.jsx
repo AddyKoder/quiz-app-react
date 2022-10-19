@@ -1,13 +1,36 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/CurrentTest.css'
+import { questionsContext, submittedContext } from '../Components/App'
+
 
 
 function OptionItem({ question, option }) {
+
+	const [questions, setQuestions] = useContext(questionsContext)
+	const [submitted] = useContext(submittedContext)
+	
+	//correct style
+	const styleC = submitted ? question.correct === option ? { color: '#00df00' } : {} : {}
+	const styleR = submitted ? question.selected === option ? question.correct !== question.selected ? { color: 'red', textDecoration:'line-through' } : {} : {} : {}
+
+		
 	const statement = question.statement;
 
-	return <div className="option">
-		<input type="radio" name={`${statement}`} id={`${statement}__${option}`} />
+	return <div className="option" style={{...styleR, ...styleC}}>
+		<input checked={question.selected === option} type="radio" name={`${statement}`} id={`${statement}__${option}`} onChange={(e) => {
+			// function checking change in value if the current option is selected
+			if (e.target.checked === false) return 
+			if (submitted) return
+			
+
+			setQuestions(questions.map((ques) => {
+				if (ques.id !== question.id) return ques
+				const quesCopy = {...ques}
+				quesCopy.selected = option
+				return quesCopy
+			}))
+		} } />
 
 		<label className='option-label' htmlFor={`${statement}__${option}`}>{option}</label>
 	</div>
@@ -33,12 +56,15 @@ function QuestionDisplay({ question }) {
 	</div>
 }
 
-export default function CurrentTest({ time, onAbort, isPlaying, questions, topicsCount, }) {
+export default function CurrentTest({ time, onAbort, isPlaying, topicsCount, onSubmit }) {
 
+	const [questions] = useContext(questionsContext)
+	const [submitted] = useContext(submittedContext)
 
 
 	function submitTest(e) {
 		e.preventDefault();
+		onSubmit()
 	}
 	
 	if (isPlaying) {
@@ -54,9 +80,9 @@ export default function CurrentTest({ time, onAbort, isPlaying, questions, topic
 				</div>
 				<header>
 
-					<button id="test-abort-button" onClick={() => {
-						if(window.confirm('Are you Sure, You want to Abort the current Test? All the data will be lost.')) onAbort()
-				}}>Abort Test</button>
+					{submitted || <button id="test-abort-button" onClick={() => {
+						if (window.confirm('Are you Sure, You want to Abort the current Test? All the data will be lost.')) onAbort()
+					}}>Abort Test</button>}
 					<div className='timer' >
 
 						{time / 60 < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60)}
@@ -64,9 +90,12 @@ export default function CurrentTest({ time, onAbort, isPlaying, questions, topic
 				</header>
 
 				<form>
-					{questions.map((question) => <QuestionDisplay key={question.id} question={question} />)}
+						{questions.map((question) => <QuestionDisplay key={question.id} question={question} />)}
 
-					<button className='test-submit-button' type="submit" onClick={submitTest}>Finish Test</button>
+					{submitted
+						|| <button className='test-submit-button' type="submit" onClick={submitTest}>Finish Test</button>
+					}
+						
 				</form>
 			</div>
 		);
