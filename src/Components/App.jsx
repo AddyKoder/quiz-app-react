@@ -1,5 +1,5 @@
 import React, { useState, createContext, useRef } from 'react';
-import { Route, Routes, BrowserRouter, Outlet, Link } from 'react-router-dom';
+import { Route, Routes, HashRouter, Outlet, Link } from 'react-router-dom';
 import NewTestForm from './NewTestForm';
 import AddQuestion from './AddQuestion';
 import CurrentTest from './CurrentTest';
@@ -252,8 +252,10 @@ export default function App() {
 			<questionNoContext.Provider value={[questionNo, setQuestionNo]}>
 				<questionsContext.Provider value={[questions, setQuestions]}>
 					<submittedContext.Provider value={[submitted, setSubmitted]}>
-					<div className='App'>
-						<BrowserRouter>
+						<div className='App'>
+							
+
+						<HashRouter>
 							<Routes>
 								<Route path='/' element={<Navbar />}>
 									<Route index element={<NewTestForm topics={questionTopics} onStart={startTest} />} />
@@ -270,7 +272,9 @@ export default function App() {
 									<Route path='/add-question' element={<AddQuestion />} />
 								</Route>
 							</Routes>
-						</BrowserRouter>
+							</HashRouter>
+							
+
 						</div>
 					</submittedContext.Provider>
 				</questionsContext.Provider>
