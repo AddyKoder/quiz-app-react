@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './Components/App.jsx'
-
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
 // Default react index.js file
@@ -11,3 +11,6 @@ root.render(
     <App/>
   </React.StrictMode>
 );
+
+
+serviceWorkerRegistration.register();
