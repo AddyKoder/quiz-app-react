@@ -111,3 +111,10 @@ label[for='questionNoInput']{
 input[type='submit']:hover{
 	background-color: rgb(0, 177, 133);
 }
+
+
+@media screen and (max-width: 500px) {
+	nav a{
+		font-size: 9px;
+	}
+}

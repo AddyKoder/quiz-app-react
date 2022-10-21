@@ -62,13 +62,12 @@ input[type='radio']{
 
 	.test header{
 		border-radius: 0;
-		padding: 1.5em 3em;
-		transform: translate(0);
+		padding: 1em 2em;
 	}
 
 	#test-abort-button{
-		font-size: 1.5em;
-		padding: 0.5em 1em;
+		font-size: 1.2rem;
+
 	}
 
 }
@@ -88,7 +87,7 @@ input[type='radio']{
 
 
 .question-statement{
-	font-size: 1.6rem;
+	font-size: 1.3rem;
 	opacity: 0.7;
 	margin-left: 1em;
 }
@@ -108,6 +107,7 @@ input[type='radio']{
 	display:flex;
 	align-items: center;
 	padding-inline: 0.5em;
+	font-size: 1.1rem;
 }
 
 .option-label{
@@ -162,11 +162,12 @@ input[type='radio']{
 	}
 	.test-submit-button{
 		width: 90%;
-		margin-left: 1.2em;
-		padding: 0.5em;
+		margin-left: .8em;
+		border-radius: 5px;
+		/* padding: 0.5em; */
 	}
 	.question-statement{
-		font-size: 2.2rem;
+
 		line-height: 1.5em;
 		margin-left: 0.5em;
 	}
@@ -180,14 +181,13 @@ input[type='radio']{
 		margin-bottom: 1em;
 	}
 	.questionItem{
-		padding: 2em 1em;
+		padding: 1.5em 0.5em;
+		margin:0;
 	}
 	h2{
 		margin-block: 0.25em;
 	}
-	.option{
-		font-size: 1.5rem;
-	}
+
 	.option:hover{
 		background-color: inherit;
 	}
