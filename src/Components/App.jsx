@@ -86,7 +86,14 @@ function fetchQuizData() {
 }
 
 // helper function to shuffle an array
-function shuffle(array) {
+function shuffle(arrayArg) {
+
+	// So this was causing const quiz data to get modified
+	// because of directly modifying the arguments
+	// Now the copy of the argument is modified to prevent it from happenning
+	let array = [...arrayArg]
+
+
 	let currentIndex = array.length,
 		randomIndex;
 
@@ -181,14 +188,14 @@ export default function App() {
 		const questions =
 			// Shuffling the order or questions
 			shuffle(
-				// Filtering tor topics selected by the user
-				quizData.filter(question => {
-					if (topics.includes(question.type[1])) {
-						return true;
-					}
-					return false;
-				})
-			)
+				// Filtering for topics selected by the user
+					quizData.filter(question => {
+						if (topics.includes(question.type[1])) {
+							return true;
+						}
+						return false;
+					})
+				)
 				// Mapping questions to shuffle the options coz options 1 is always correct
 				// Also to add question no.
 				// Also to add correct answer.
