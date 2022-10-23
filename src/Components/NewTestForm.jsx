@@ -54,7 +54,7 @@ export default function NewTestForm({ topics, onStart }) {
 				<span className='outline'>Customise your</span> Test
 			</h2>
 
-			<form>
+			<form className='newTest'>
 				<label htmlFor="questionNoInput">Number of questions (5-40)</label>
 				<input id='questionNoInput' value={questionNo} onChange={(e) => {
 					setQuestionNo(Number(e.target.value))

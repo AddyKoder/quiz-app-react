@@ -1,6 +1,8 @@
 :root{
 	--color-em: rgb(0, 255, 191);
-	--color-bg: rgb(3, 3, 20);
+	--color-bg: rgb(0, 0, 0);
+
+	--color-em: rgb(0, 225, 255);
 }
 *{
 	box-sizing: border-box;
@@ -80,6 +82,7 @@ hr{
 		display: flex;
 		align-items: center;
 	}
+
 	a{
 		margin-inline: 5px;
 	}
@@ -91,6 +94,12 @@ hr{
 		margin-left: 0;
 		width: 98%;
 		margin-inline: auto;
+	}
+	form{
+		padding:0;
+	}
+	form.newTest{
+		padding: 1em;
 	}
 	
 }

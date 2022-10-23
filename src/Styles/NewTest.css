@@ -46,7 +46,7 @@ input[type='checkbox']{
 
 input[type='submit']{
 	border: none;
-	background-color: rgb(0, 194, 145);
+	background-color: rgb(0, 165, 187);
 }
 input[type='submit']:hover{
 	cursor: pointer;
@@ -81,11 +81,11 @@ div.subtopics{
 }
 
 .subtopic-item + .subtopic-item{
-	margin-left: 3em;
+	margin-left: 2em;
 }
 
 label.checkbox{
-	margin-left: 1em;
+	margin-left: 0.5em;
 	text-transform: capitalize;
 	font-size: 1.2rem;
 	margin-block: 1em;
@@ -108,13 +108,18 @@ label[for='questionNoInput']{
 	opacity: 0.6;
 }
 
-input[type='submit']:hover{
-	background-color: rgb(0, 177, 133);
-}
-
 
 @media screen and (max-width: 500px) {
 	nav a{
 		font-size: 9px;
+	}
+	.subtopic-item + .subtopic-item{
+		margin-left: 1.5em;
+	}
+	label.checkbox:hover{
+		color:inherit;
+	}
+	label.checkbox{
+		margin-left: 0.25em;
 	}
 }

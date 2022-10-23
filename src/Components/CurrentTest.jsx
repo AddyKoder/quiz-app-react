@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/CurrentTest.css'
+import '../Styles/ScoreCard.css'
 import { questionsContext, submittedContext } from '../Components/App'
 
 
@@ -56,16 +57,60 @@ function QuestionDisplay({ question }) {
 	</div>
 }
 
-export default function CurrentTest({ time, onAbort, isPlaying, topicsCount, onSubmit }) {
+
+function ScoreCard({result, onRetest}) {
+	let resColor;
+	if (result.persentage > 70) resColor = 'green'
+	else if(result.persentage > 33) resColor = '#c4c400'
+	else if(result.persentage <= 33) resColor = 'red'
+
+
+	return (
+		<div id="scoreCard" className="scoreCard" style={{ borderColor: resColor }}>
+		<h3 style={{backgroundColor:resColor}}>Result</h3>
+		<div className="inner">
+			<div className="percent">
+				<span className="percentage" style={{color:resColor}}>{result.persentage}%</span>
+				<span className="lightTextUnderPercent">SCORED</span>
+			</div>
+			<div className="score">
+
+
+				<table>
+					<tbody>
+					<tr><td className='fieldName'>Time Taken</td><td className='fieldData'>{result.time}</td></tr>
+					<tr><td className='fieldName'>Total Questions</td><td className='fieldData'>{result.total}</td></tr>
+					<tr><td className='fieldName'>Attempted</td><td className='fieldData'>{result.attempted}</td></tr>
+					<tr><td className='fieldName'>Correct</td><td className='fieldData'>{result.correct}</td></tr>
+					<tr><td className='fieldName'>Wrong</td><td className='fieldData'>{result.wrong}</td></tr>
+					</tbody>
+				</table> 
+			</div>
+			
+
+			<div className="actions">
+				<button onClick={onRetest} className='retest-button'>Retest</button>
+				<p>Take the test again with same settings but new questions</p>
+			</div>
+		</div>
+	</div>)
+}
+
+export default function CurrentTest({ time, onAbort, isPlaying, topicsCount, onSubmit, result, onRetest}) {
 
 	const [questions] = useContext(questionsContext)
 	const [submitted] = useContext(submittedContext)
 
-
 	function submitTest(e) {
 		e.preventDefault();
+		setTimeout(()=>{var scrollDiv = document.getElementById("scoreCard").offsetTop;
+		window.scrollTo({ top: scrollDiv-50, behavior: 'smooth'});}, 100);
 		onSubmit()
 	}
+
+	const minutes = time / 60 < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60)
+	const seconds = time % 60 < 10 ? `0${time % 60}` : time % 60
+	const formattedTime= `${minutes}:${seconds}`
 	
 	if (isPlaying) {
 		return (
@@ -78,16 +123,18 @@ export default function CurrentTest({ time, onAbort, isPlaying, topicsCount, onS
 							<span className="bright">{questions.length}</span> Questions of <span className="bright">{topicsCount}</span> Topics
 						</span>
 				</div>
-				<header>
 
-					{submitted || <button id="test-abort-button" onClick={() => {
+				{ submitted && <ScoreCard onRetest={onRetest} result={{...result, time:formattedTime}}/>}
+
+				{ submitted || <header>
+
+					<button id="test-abort-button" onClick={() => {
 						if (window.confirm('Are you Sure, You want to Abort the current Test? All the data will be lost.')) onAbort()
-					}}>Abort Test</button>}
+					}}>Abort Test</button>
 					<div className='timer' >
 
-						{time / 60 < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60)}
-						:{time % 60 < 10 ? `0${time % 60}` : time % 60}</div>
-				</header>
+						{formattedTime}</div>
+				</header>}
 
 				<form>
 						{questions.map((question) => <QuestionDisplay key={question.id} question={question} />)}
@@ -104,6 +151,7 @@ export default function CurrentTest({ time, onAbort, isPlaying, topicsCount, onS
 	// returning what to display when has not yet started or being aborted
 	return (
 		<>
+			
 			<h2 style={{ color: 'grey' }}>Test is not yet started</h2>
 			<p style={{ textAlign: 'center', fontSize: '1.5rem', color: 'grey' }}>
 				Try starting a test{' '}

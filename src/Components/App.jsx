@@ -4,7 +4,7 @@ import NewTestForm from './NewTestForm';
 import AddQuestion from './AddQuestion';
 import CurrentTest from './CurrentTest';
 import '../Styles/App.css';
-import useLocalstorage from '../Hooks/useLocalstorage';
+import useLocalStorage from '../Hooks/useLocalStorage';
 
 // LAYOUT OF THE APP
 
@@ -135,8 +135,8 @@ export const submittedContext = createContext()
 // The app component contains links to all the other components/pages using react-router-dom. Links are directed using the <Link/> component
 export default function App() {
 	// tracking the configuration of test edited by the user
-	const [questionNo, setQuestionNo] = useLocalstorage('setQuestionNo', 5);
-	const [topics, updateTopics] = useLocalstorage('topics', {});
+	const [questionNo, setQuestionNo] = useLocalStorage('setQuestionNo', 5);
+	const [topics, updateTopics] = useLocalStorage('topics', {});
 
 	// tracking the timer of current test
 	const [time, setTime] = useState(0);
@@ -147,7 +147,7 @@ export default function App() {
 	// creating a variable to keep track of the last timeout used to increment the time variable
 	// used to clear timeout when timer has to stop or reseted
 	const lastTimeout = useRef(undefined);
-
+	
 	// containst questions for current test
 	const [questions, setQuestions] = useState({});
 
@@ -156,6 +156,10 @@ export default function App() {
 
 	//contains whether the current test is submitted or not
 	const [submitted, setSubmitted] = useState(false)
+
+	//containing the result of the previous test
+	const [result, setResult] = useState({})
+
 
 	// used for overwriting new topics selected by user to the topics state
 	function setTopics(arg) {
@@ -189,13 +193,13 @@ export default function App() {
 			// Shuffling the order or questions
 			shuffle(
 				// Filtering for topics selected by the user
-					quizData.filter(question => {
-						if (topics.includes(question.type[1])) {
-							return true;
-						}
-						return false;
-					})
-				)
+				quizData.filter(question => {
+					if (topics.includes(question.type[1])) {
+						return true;
+					}
+					return false;
+				})
+			)
 				// Mapping questions to shuffle the options coz options 1 is always correct
 				// Also to add question no.
 				// Also to add correct answer.
@@ -251,6 +255,22 @@ export default function App() {
 	function submitTest() {
 		setSubmitted(true)
 		clearTimeout(lastTimeout.current);
+
+		setResult(evalTestScore())
+	}
+
+	function evalTestScore() {
+		let correct=0;
+		let wrong=0;
+		for(const question of questions) {
+			if (question.selected === question.correct) correct++
+			else if (question.selected !== undefined) wrong++
+		}
+
+		return {	
+			correct, wrong, total: questions.length, attempted: correct + wrong, time,
+			persentage: Math.round(100*correct/questions.length)
+		}
 	}
 
 
@@ -272,7 +292,7 @@ export default function App() {
 									<Route
 										path='/test'
 										element={
-											<CurrentTest time={time} onAbort={abortTest} isPlaying={isTestActive} topicsCount={currentTestTopics.current} onSubmit={submitTest} />
+											<CurrentTest time={time} onAbort={abortTest} isPlaying={isTestActive} topicsCount={currentTestTopics.current} onSubmit={submitTest} result={result} onRetest={startTest} />
 										}
 									/>
 

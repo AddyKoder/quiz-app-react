@@ -1,0 +1,186 @@
+
+html{
+	scroll-behavior: smooth;
+}
+
+.scoreCard{
+	--color-res:#00aa39;
+	
+	max-width: 800px;
+	border: 5px solid var(--color-res);
+	border-radius: 1em;
+
+	margin-inline: auto;
+
+	position: relative;
+
+	padding: 2em 3em;
+
+	
+
+}
+.inner{
+	display: grid;
+
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr auto;
+}
+
+.scoreCard h3{
+	margin:0;
+	padding-inline: 0.5em;
+	margin-inline: 1em;
+	padding-bottom: 4px;
+	position: absolute;
+	top:-28px;
+	background-color: var(--color-res);
+
+	opacity: 1;
+
+	font-weight: 600;
+
+	/* color:#006eff; */
+	/* border:2px solid #006eff; */
+	border-radius: 1em;
+}
+
+
+.score{
+
+	grid-column: 1/span 1;
+	grid-row: 1/span 2;
+
+	align-items: center;
+	align-self: center;
+
+}
+
+
+.percent{
+	grid-column: 2/span 1;
+	grid-row: 1/span 1;
+	grid:percent;
+	line-height: 7em;
+}
+.percent .percentage{
+	font-size: 7rem;
+	letter-spacing: 5px;
+	display:block;
+	text-align: center;
+}
+
+.lightTextUnderPercent{
+	text-align: center;
+	opacity: 0.7;
+	font-size: 1.5rem;
+	display:block;
+	letter-spacing: 3px;
+	line-height: 1.5em;
+}
+
+
+.actions{
+	grid-column: 2/span 1;
+	grid-row: 2/span 1;
+	grid:actions;
+}
+
+
+
+.retest-button{
+	width: 100%;
+	padding: 0.5em;
+	background-color: var(--color-em);
+	border:0;
+	font-size: 1.2rem;
+	margin-top: 1.5em;
+	border-radius: 8px;
+}
+.retest-button:hover{
+	cursor: pointer;
+}
+
+.scoreCard p{
+	font-size: 0.8rem;
+	text-align: center;
+	margin:0;
+	opacity: 0.8;
+}
+
+.score td{
+	font-size: 1.5rem;
+	position:relative;
+}
+
+.score td+td::before{
+	content:':';
+	margin-inline:0.5em;
+}
+
+td.fieldName{
+	/* text-align: center; */
+	letter-spacing: 2px;
+	opacity: 0.8;
+	font-weight: 100;
+}
+
+td.fieldData{
+	font-size: 1.8rem;
+}
+
+
+
+@media screen and (max-width:500px) {
+
+	.scoreCard{
+		margin-block: 2em;
+	}
+	.scoreCard h3{
+		margin-top: 5px;
+		margin-left:2.45em
+
+	}
+	.inner{
+		grid-template-columns: 1fr;
+	}
+	.scoreCard{
+		margin-inline: 1em;
+		margin-top: 5em;	
+	}
+
+	.inner>*+*{
+		margin-top:1em;
+		padding-top: 1em;
+		border-top: 1px solid rgba(128, 128, 128, 0.479);
+
+	}
+
+	.percent{
+
+		grid-row: 1/span 1;
+		grid-column: 1/span 1;
+		grid:percent;
+		line-height: 7em;
+	}
+	.score{
+
+		grid-column: 1/span 1;
+
+		grid-row: 2/span 1;
+	}
+	
+	.actions{
+		grid-column: 1/span 1;
+
+		grid-row: 3/span 1;
+		grid:actions;
+	}
+
+	td.fieldName{
+		font-size: 1.2rem;
+	}
+	td.fieldData{
+		font-size: 1.3rem;
+	}
+	
+}
