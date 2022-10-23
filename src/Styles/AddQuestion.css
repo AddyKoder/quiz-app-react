@@ -1,0 +1,28 @@
+
+
+.optionInput{
+	border:0;
+	background-color: rgba(0, 225, 255, 0.178);
+	border-radius: 0;
+	padding: 0.5em 1em;
+
+	margin: 10px 0;
+}
+
+.topicSelection{
+	display:flex;
+}
+
+form.add-question{
+	margin-block:0;
+}
+.topicSelection input+input{
+	margin-left: 5px;
+}
+
+@media screen and (max-width:500px) {
+	form.add-question{
+		padding:1em;
+	}
+	
+}
