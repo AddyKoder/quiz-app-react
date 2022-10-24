@@ -1,5 +1,6 @@
 import React, {useState } from 'react';
 import '../Styles/AddQuestion.css';
+import { LoadingBox } from '../Components/NewTestForm'
 
 // TODO
 
@@ -7,10 +8,27 @@ import '../Styles/AddQuestion.css';
 // questions to pantry basket
 
 
-function submitQuestion(question, validInputs) {
+async function submitQuestion(question, onSubmitted) {
 	// now here you are getting the question item
 	// and you have to upload it to pantry
-	if (!validInputs) window.alert('Please completely fill all the required fields before adding a question')
+
+	fetch('https://getpantry.cloud/apiv1/pantry/76a8c7e8-1177-4776-b59f-6733f547e7ee/basket/quizapp', {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body:JSON.stringify({data:[question]})
+
+	}).then((res) => {
+		console.log(res);
+		onSubmitted()
+		setTimeout(() => {
+			
+			window.alert('Question Added Successfully. View log in the console')
+		}, 100);
+	})
+
+	return true
 }
 
 export default function AddQuestion() {
@@ -21,13 +39,15 @@ export default function AddQuestion() {
 	const [option1, setOption1] = useState('')
 	const [option2, setOption2] = useState('')
 	const [option3, setOption3] = useState('')
-
+	const [loading, setLoading] = useState(false)
+	
+	
 	const question = {
 		// lowercasing all the values
-		statement:statement.toLowerCase(),
+		statement:statement,
 		id: new Date().getTime(),
-		option: [answer, option1, option2, option3].map((i)=>i.toLowerCase()),
-		topic:[topic, subtopic].map((i)=>i.toLowerCase())
+		options: [answer, option1, option2, option3],
+		type:[topic, subtopic].map((i)=>i.toLowerCase())
 	};
 
 	function checkValidInputs() {
@@ -37,6 +57,20 @@ export default function AddQuestion() {
 
 		return true
 	}
+
+	function submitQuestionGuard(e) {
+		e.preventDefault()
+		
+		if (!checkValidInputs()) window.alert('Please completely fill all the required fields before adding a question')
+
+		setLoading(true)
+		// setting all the input fields to null after question is added
+		setTopic(''); setSubtopic(''); setStatement(''); setAnswer(''); setOption1(''); setOption2(''); setOption3('')
+		
+		submitQuestion(question, ()=>setLoading(false))
+	}
+
+	if (loading) return <LoadingBox/>
 
 	return (
 		<div className='add-question'>
@@ -72,7 +106,7 @@ export default function AddQuestion() {
 						setOption3(e.target.value)
 					}} />
 
-				<input type='submit' value='Add Question' onClick={(e) => { e.preventDefault(); submitQuestion(question, checkValidInputs())}} />
+				<input type='submit' value='Add Question' onClick={submitQuestionGuard} />
 			</form>
 		</div>
 	);

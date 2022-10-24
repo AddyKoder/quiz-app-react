@@ -140,7 +140,7 @@ export default function App() {
 			setQuizData(res)
 
 			
-			const questionTopicsCopy = { ...questionTopics }
+			const questionTopicsCopy = {}
 			
 			for (let question of res) {
 				let breaked = false;
@@ -156,7 +156,7 @@ export default function App() {
 			setQuizTopics(questionTopicsCopy)
 		})
 
-	},[questionTopics])
+	},[])
 
 
 	// used for overwriting new topics selected by user to the topics state

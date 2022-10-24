@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // conponent for showing loading animation
 // used while the quiz data is fetched
-function LoadingBox() {
+export function LoadingBox() {
 	return (
 	<div className="loader">
 		<div className='innerLoader'></div>
