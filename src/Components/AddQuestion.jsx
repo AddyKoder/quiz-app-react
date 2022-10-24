@@ -61,7 +61,10 @@ export default function AddQuestion() {
 	function submitQuestionGuard(e) {
 		e.preventDefault()
 		
-		if (!checkValidInputs()) window.alert('Please completely fill all the required fields before adding a question')
+		if (!checkValidInputs()) {
+			window.alert('Please completely fill all the required fields before adding a question');
+			return false;
+		}
 
 		setLoading(true)
 		// setting all the input fields to null after question is added
