@@ -3,6 +3,14 @@ import '../Styles/NewTest.css';
 import { topicsContext, questionNoContext } from './App';
 import { useNavigate } from "react-router-dom";
 
+// conponent for showing loading animation
+// used while the quiz data is fetched
+function LoadingBox() {
+	return (
+	<div className="loader">
+		<div className='innerLoader'></div>
+	</div>)
+}
 
 function CheckboxGroup({ topic, subtopics }) {
 	return (
@@ -60,6 +68,8 @@ export default function NewTestForm({ topics, onStart }) {
 					setQuestionNo(Number(e.target.value))
 				}} type='number' max='40' min='5' />
 				<h3>Select Topics</h3>
+
+				{Object.keys(topics).length !== 0 || <LoadingBox/>}	
 				{Object.keys(topics).map(topic => {
 					return <CheckboxGroup key={topic} topic={topic} subtopics={topics[topic]} />;
 				})}
@@ -71,6 +81,7 @@ export default function NewTestForm({ topics, onStart }) {
 					}
 				}} />
 			</form>
+			
 		</>
 	);
 }

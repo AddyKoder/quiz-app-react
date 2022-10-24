@@ -1,4 +1,55 @@
 
+div.loader{
+	--loader-size:100px;
+	--loader-width:5px;
+
+	width: var(--loader-size);
+	height: var(--loader-size);
+	margin:auto;
+	border-radius: 50%;
+	border: var(--loader-width) solid white;
+
+	display:flex;
+	align-items: center;
+	justify-content: center;
+
+	margin-block: 4em;
+}
+
+div.innerLoader{
+	width: var(--loader-width);
+	height: calc(var(--loader-size) + var(--loader-width));
+
+	animation: rotating 1s infinite ease-in-out;
+	animation: squashing 1.2s infinite ease-in-out;
+	
+	background-color: var(--color-bg);
+}
+
+@media screen and (max-width:500px) {
+	div.loader{
+		--loader-size:50px;
+	--loader-width:2px;
+	}
+}
+
+@keyframes squashing{
+	0%{
+		width: var(--loader-width);
+		transform: rotate(0deg);
+
+	}
+	50%{
+		width: calc(var(--loader-size) - 2*var(--loader-width))
+	}
+	100%{
+		width: var(--loader-width) ;
+		transform: rotate(360deg);
+
+	}
+}
+
+
 span.outline{
 	color:transparent;
 	-webkit-text-stroke: 1px white;

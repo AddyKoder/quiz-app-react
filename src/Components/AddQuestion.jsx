@@ -7,10 +7,10 @@ import '../Styles/AddQuestion.css';
 // questions to pantry basket
 
 
-function submitQuestion(question) {
+function submitQuestion(question, validInputs) {
 	// now here you are getting the question item
 	// and you have to upload it to pantry
-	console.log(question);
+	if (!validInputs) window.alert('Please completely fill all the required fields before adding a question')
 }
 
 export default function AddQuestion() {
@@ -30,6 +30,13 @@ export default function AddQuestion() {
 		topic:[topic, subtopic].map((i)=>i.toLowerCase())
 	};
 
+	function checkValidInputs() {
+		for (let input of [topic, subtopic, statement, answer, option1, option2, option3]) {
+			if (input.replaceAll(' ', '') === '') return false
+		}
+
+		return true
+	}
 
 	return (
 		<div className='add-question'>
@@ -65,7 +72,7 @@ export default function AddQuestion() {
 						setOption3(e.target.value)
 					}} />
 
-				<input type='submit' value='Add Question' onClick={(e) => { e.preventDefault(); submitQuestion(question)}} />
+				<input type='submit' value='Add Question' onClick={(e) => { e.preventDefault(); submitQuestion(question, checkValidInputs())}} />
 			</form>
 		</div>
 	);

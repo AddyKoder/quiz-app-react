@@ -1,4 +1,4 @@
-import React, { useState, createContext, useRef } from 'react';
+import React, { useState, createContext, useRef, useEffect } from 'react';
 import { Route, Routes, HashRouter, Outlet, Link } from 'react-router-dom';
 import NewTestForm from './NewTestForm';
 import AddQuestion from './AddQuestion';
@@ -54,35 +54,13 @@ function Navbar() {
 	);
 }
 
-function fetchQuizData() {
+async function fetchQuizData() {
 	// the fetch data should be implemented here
 	// for now this dummy data will be provided
-	return [
-		{
-			id: 1,
-			statement: 'Which of the following topics is of Physics?',
-			options: ['Mechanics', 'Bonding', 'Permutations', 'Genetics'],
-			type: ['physics', 'mechanics'],
-		},
-		{
-			id: 2,
-			statement: 'What is projectile motion?',
-			options: ['Motion of object in 2D place', 'Motion of object in 1D place', 'Circular motion of an object', 'Straight line motion of an object'],
-			type: ['physics', 'kinematics'],
-		},
-		{
-			id: 3,
-			statement: 'What type of isomerism rotates plane polanised light?',
-			options: ['Geometrical Isomerism', 'Functional Isomerism', 'Metamerism', 'Positional Isomerism'],
-			type: ['chemistry', 'isomerism'],
-		},
-		{
-			id: 4,
-			statement: 'What do you call CH3COOH in IUPAC?',
-			options: ['Acetic Acid', 'Lactic Acid', 'Carbonic Acid', 'Carboxacid'],
-			type: ['chemistry', 'nomenclature'],
-		},
-	];
+	const response = await fetch('https://getpantry.cloud/apiv1/pantry/76a8c7e8-1177-4776-b59f-6733f547e7ee/basket/quizapp')
+	const data = await response.json()
+
+	return data.data;
 }
 
 // helper function to shuffle an array
@@ -110,22 +88,8 @@ function shuffle(arrayArg) {
 	return array;
 }
 
-const quizData = fetchQuizData();
-// const questionCount = quizData.length;
 
-const questionTopics = {};
-// adding all the topics to the questionTopics object from the quizData
-for (let question of quizData) {
-	let breaked = false;
-	if (!(question?.type[0] in questionTopics)) {
-		questionTopics[question.type[0]] = [question.type[1]];
-	}
 
-	for (let subtopic of questionTopics[question.type[0]]) {
-		if (subtopic === question.type[1]) breaked = true;
-	}
-	if (!breaked) questionTopics[question.type[0]].push(question.type[1]);
-}
 
 export const topicsContext = createContext();
 export const questionNoContext = createContext();
@@ -134,6 +98,14 @@ export const submittedContext = createContext()
 
 // The app component contains links to all the other components/pages using react-router-dom. Links are directed using the <Link/> component
 export default function App() {
+
+	// declaring the quizData variable
+	const [quizData, setQuizData] = useState({});
+
+	// after the quiz data is fetched asynchronously
+	// then the topics are extracted from it
+	const [questionTopics, setQuizTopics] = useState({});
+
 	// tracking the configuration of test edited by the user
 	const [questionNo, setQuestionNo] = useLocalStorage('setQuestionNo', 5);
 	const [topics, updateTopics] = useLocalStorage('topics', {});
@@ -159,6 +131,32 @@ export default function App() {
 
 	//containing the result of the previous test
 	const [result, setResult] = useState({})
+
+
+	useEffect(() => {
+		// adding all the topics to the questionTopics object from the quizData
+
+		fetchQuizData().then((res) => {
+			setQuizData(res)
+
+			
+			const questionTopicsCopy = { ...questionTopics }
+			
+			for (let question of res) {
+				let breaked = false;
+				if (!(question?.type[0] in questionTopicsCopy)) {
+					questionTopicsCopy[question.type[0]] = [question.type[1]];
+				}
+			
+				for (let subtopic of questionTopicsCopy[question.type[0]]) {
+					if (subtopic === question.type[1]) breaked = true;
+				}
+				if (!breaked) questionTopicsCopy[question.type[0]].push(question.type[1]);
+			}
+			setQuizTopics(questionTopicsCopy)
+		})
+
+	},[questionTopics])
 
 
 	// used for overwriting new topics selected by user to the topics state
