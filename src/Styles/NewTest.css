@@ -7,7 +7,7 @@ div.loader{
 	height: var(--loader-size);
 	margin:auto;
 	border-radius: 50%;
-	border: var(--loader-width) solid white;
+	border: var(--loader-width) solid grey;
 
 	display:flex;
 	align-items: center;
@@ -132,16 +132,17 @@ div.subtopics{
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+
 }
 
-.subtopic-item + .subtopic-item{
-	margin-left: 2em;
+.subtopic-item{
+	margin-inline:1em;
 }
 
 label.checkbox{
 	margin-left: 0.5em;
 	text-transform: capitalize;
-	font-size: 1.2rem;
+	font-size: 1rem;
 	margin-block: 1em;
 }
 
@@ -167,8 +168,8 @@ label[for='questionNoInput']{
 	nav a{
 		font-size: 9px;
 	}
-	.subtopic-item + .subtopic-item{
-		margin-left: 1.5em;
+	.subtopic-item{
+		margin-inline: 0.65em;
 	}
 	label.checkbox:hover{
 		color:inherit;
